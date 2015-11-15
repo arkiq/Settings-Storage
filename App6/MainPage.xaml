@@ -10,9 +10,12 @@
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="Images/background.jpg" 
-                        Stretch="UniformToFill" Opacity="0.3" />
+                        Stretch="UniformToFill" Opacity="0.4" />
         </Grid.Background>
-        <Pivot x:Name="pvtPlanets" Title="The Planets" SelectionChanged="pvtPlanets_SelectionChanged">
+        <Pivot x:Name="pvtPlanets" SelectionChanged="pvtPlanets_SelectionChanged">
+            <Pivot.Title>
+                <TextBlock Text="The Planets" Style="{StaticResource TitleTextBlockStyle}" />
+            </Pivot.Title>
             <PivotItem x:Name="pvtEarth" Header="Mercury" >
                 <Grid>
                     <Grid.ColumnDefinitions>
