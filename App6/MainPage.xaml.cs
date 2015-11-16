@@ -40,10 +40,25 @@ namespace App6
                             ApplicationData.Current.LocalSettings;
                 // 2. check for the key value stored under the name
                 //    "selectedPlanet"
+                //
+                // high score
+                // name/value pair
+                // int i      i = 9;   i/9
+                // planet last looked at - "lastPlanet"
+                // create a name/value pair for that.
+                // only stores a number - selectedIndex from the pivot
+                // use that to set the selectedIndex on startup.
+
+                // returned as generic, so cast
                 value = (int)localSettings.Values["selectedPlanets"];
                 // 3.  if it is there, then set the SelectedIndex of the pivot page
                 //     using the value
                 pvtPlanets.SelectedIndex = value;
+
+
+
+
+
             }
             catch (Exception exc)
             {
@@ -61,7 +76,7 @@ namespace App6
                     // if the value key is not set, then the exception will cause
                     // this code to execute, which just sets the value to 0 (default)
                     string errMsg = exRoaming.Message;
-                    pvtPlanets.SelectedIndex = 9;
+                    pvtPlanets.SelectedIndex = 0;
                 } // end inner try for roaming settings
             } // end first try for local settings
             // read list from file
@@ -70,7 +85,11 @@ namespace App6
 
         private async void readFileListcontents()
         {
-            StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+            // files for the app are stored in the local folder
+            // 
+            StorageFolder storageFolder = 
+                ApplicationData.Current.LocalFolder;
+            
             // create the file and append
             StorageFile sampleFile;
             try
