@@ -50,7 +50,7 @@ namespace App6
                 // use that to set the selectedIndex on startup.
 
                 // returned as generic, so cast
-                value = (int)localSettings.Values["selectedPlanets"];
+                value = (int)localSettings.Values["selectedPlanet"];
                 // 3.  if it is there, then set the SelectedIndex of the pivot page
                 //     using the value
                 pvtPlanets.SelectedIndex = value;
@@ -101,7 +101,7 @@ namespace App6
                 string message = myE.Message;
                 return;
             }
-            string fileText = await Windows.Storage.FileIO.ReadTextAsync(sampleFile);
+            string fileText = await FileIO.ReadTextAsync(sampleFile);
             tblVisited.Text = tblVisited.Text + fileText;
         }
 
@@ -156,9 +156,11 @@ namespace App6
             // 2. just write the value. This overwrites the value, but in this
             //    case, that is not a problem.  If it is, then you may want to check 
             //    whether the value exists or not.
+            // values are stored as name/value pairs
+            // example is int i = 9 (i/9)
+            // selectedPlanet is chosen by me.
             localSettings.Values["selectedPlanet"] = pvtPlanets.SelectedIndex;
-
-
+            
             // to get roaming settings.....
             ApplicationDataContainer roamingSettings =
                 ApplicationData.Current.RoamingSettings;
