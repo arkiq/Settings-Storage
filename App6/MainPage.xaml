@@ -16,7 +16,7 @@
             <Pivot.Title>
                 <TextBlock Text="The Planets" Style="{StaticResource TitleTextBlockStyle}" />
             </Pivot.Title>
-            <PivotItem x:Name="pvtEarth" Header="Mercury" >
+            <PivotItem Header="Mercury" >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="120" />
@@ -140,6 +140,11 @@
                     <TextBlock x:Name="tblAbout8" TextWrapping="Wrap" 
                                HorizontalAlignment="Left" VerticalAlignment="Top"
                                Margin="10, 10, 10, 0" Text="Mercury Stuff here" Grid.Column="1" />
+                </Grid>
+            </PivotItem>
+            <PivotItem Header="Planets Viewed">
+                <Grid>
+                    <TextBlock x:Name="tblVisited" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Top" Text="List" />
                 </Grid>
             </PivotItem>
         </Pivot>

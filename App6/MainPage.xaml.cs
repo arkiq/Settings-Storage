@@ -61,9 +61,29 @@ namespace App6
                     // if the value key is not set, then the exception will cause
                     // this code to execute, which just sets the value to 0 (default)
                     string errMsg = exRoaming.Message;
-                    pvtPlanets.SelectedIndex = 0;
+                    pvtPlanets.SelectedIndex = 9;
                 } // end inner try for roaming settings
             } // end first try for local settings
+            // read list from file
+            readFileListcontents();
+        }
+
+        private async void readFileListcontents()
+        {
+            StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+            // create the file and append
+            StorageFile sampleFile;
+            try
+            {
+                sampleFile = await storageFolder.GetFileAsync("sample.txt");
+            }
+            catch (Exception myE)
+            {
+                string message = myE.Message;
+                return;
+            }
+            string fileText = await Windows.Storage.FileIO.ReadTextAsync(sampleFile);
+            tblVisited.Text = tblVisited.Text + fileText;
         }
 
         private void setupListsOfDescription()
@@ -99,10 +119,17 @@ namespace App6
             }
        }
 
-        private void pvtPlanets_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void pvtPlanets_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // when the user changes the planet they are looking at, then reset the
             // key value to store it for when the app starts again.
+            //if("Planets Viewed" != pvtPlanets.header)
+            if (pvtPlanets.SelectedIndex == 9)
+                return;
+
+
+            // get the current item 
+            Pivot curr = (Pivot)sender;
 
             // 1. get the link to the settings container
             ApplicationDataContainer localSettings =
@@ -117,6 +144,38 @@ namespace App6
             ApplicationDataContainer roamingSettings =
                 ApplicationData.Current.RoamingSettings;
             roamingSettings.Values["selectedPlanet"] = pvtPlanets.SelectedIndex;
+
+            // write out the name of the planet picked as well, just to keep an order on things
+            // 
+            StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+            // create the file and append
+            StorageFile sampleFile;
+            string fileText = "";
+            try
+            {
+                sampleFile = await storageFolder.GetFileAsync("sample.txt");
+                fileText = await Windows.Storage.FileIO.ReadTextAsync(sampleFile);
+
+            }
+            catch (Exception myE)
+            {
+                string message = myE.Message;
+                sampleFile = await storageFolder.CreateFileAsync("sample.txt");
+            }
+            string myH;
+
+            PivotItem pvtItem = curr.Items[curr.SelectedIndex] as PivotItem;
+
+            myH = pvtItem.Header.ToString();
+
+            
+            // file open, now write to it using the writeTextAsync
+            await Windows.Storage.FileIO.WriteTextAsync(sampleFile, fileText + myH + System.Environment.NewLine);
+
+
+            tblVisited.Text = tblVisited.Text + myH + System.Environment.NewLine;
+
+
         }
     }
 }
